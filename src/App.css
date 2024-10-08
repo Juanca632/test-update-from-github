@@ -11,7 +11,7 @@
 }
 .app div{
   padding: 30px;
-  border: 4px solid white;
+  border: 4px solid rgb(187, 93, 93);
   border-radius: 40px;
   transition: all .3s ease-in-out;
   cursor: pointer;
