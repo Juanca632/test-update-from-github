@@ -5,9 +5,7 @@ import subprocess
 app = FastAPI()
 
 # Configuración de CORS
-origins = [
-    "*",  # Permitir todas las fuentes (no recomendado en producción)
-]
+origins = ["*"]  # Permitir todas las fuentes (no recomendado en producción)
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,3 +23,12 @@ def get_commit_sha():
         return {"commit_sha": commit_sha}
     except subprocess.CalledProcessError as e:
         return {"error": "Error al obtener el commit SHA"}
+
+@app.get("/pull")
+def pull_changes():
+    try:
+        # Ejecuta el comando `git pull origin main` para actualizar el repositorio
+        output = subprocess.check_output(['git', 'pull', 'origin', 'main']).strip().decode('utf-8')
+        return {"message": "Pull ejecutado con éxito", "output": output}
+    except subprocess.CalledProcessError as e:
+        return {"error": "Error al hacer git pull", "details": e.output.decode('utf-8')}
